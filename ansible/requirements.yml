@@ -1,0 +1,4 @@
+---
+- src: https://github.com/geerlingguy/ansible-role-docker.git
+- src: https://github.com/geerlingguy/ansible-role-pip.git
+- src: https://github.com/jalessio/ansible-role-ros.git

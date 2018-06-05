@@ -1,0 +1,3 @@
+.vagrant
+*.log
+/catkin_ws
