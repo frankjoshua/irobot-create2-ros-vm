@@ -62,6 +62,7 @@ Vagrant.configure("2") do |config|
       vb.gui = true
       # Customize the amount of memory on the VM:
       vb.memory = "4096"
+      vb.cpus = 6
     end
     # Every Vagrant development environment requires a box. You can search for
     # boxes at https://vagrantcloud.com/search.
@@ -69,17 +70,18 @@ Vagrant.configure("2") do |config|
     # Enable provisioning with a shell script. Additional provisioners such as
     # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
     # documentation for more information about their specific syntax and use.
-    desktop.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
-    sudo apt-get install --no-install-recommends -y xubuntu-desktop virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
-    sudo VBoxClient --clipboard
-    sudo VBoxClient --draganddrop
-    sudo VBoxClient --display
-    sudo VBoxClient --checkhostversion
-    sudo VBoxClient --seamless
-    SHELL
   end
   
+  config.vm.provision "shell", inline: <<-SHELL
+  sudo apt-get update
+  sudo apt-get install --no-install-recommends -y xubuntu-desktop virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+  sudo VBoxClient --clipboard
+  sudo VBoxClient --draganddrop
+  sudo VBoxClient --display
+  sudo VBoxClient --checkhostversion
+  sudo VBoxClient --seamless
+  SHELL
+
   #
   # Run Ansible from the Vagrant Host
   #
