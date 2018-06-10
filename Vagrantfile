@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
   
   config.vm.provision "shell", inline: <<-SHELL
   sudo apt-get update
-  sudo apt-get install --no-install-recommends -y xubuntu-desktop virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+  sudo apt-get install -y xubuntu-desktop virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
   sudo VBoxClient --clipboard
   sudo VBoxClient --draganddrop
   sudo VBoxClient --display

@@ -36,7 +36,7 @@
 
 - hosts: desktop
   vars:
-    ros_master_uri: "http://10.10.10.104:11311"
+    ros_master_uri: "http://10.10.10.103:11311"
     ros_release: "indigo"
     ros_package: "desktop-full"
     catkin_ws: "/catkin_ws"
@@ -90,3 +90,13 @@
         state: present
         regexp: '^source /catkin_ws/devel'
         line: "source /catkin_ws/devel/setup.bash"
+
+    - name: Add hg to download gazebo models
+      apt:
+        name: mercurial
+      become: yes
+
+    - name: Download gazebo models
+      hg:
+        repo: https://bitbucket.org/osrf/gazebo_models
+        dest: /home/vagrant/.gazebo/models
