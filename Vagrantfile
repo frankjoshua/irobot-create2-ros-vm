@@ -54,10 +54,28 @@ Vagrant.configure("2") do |config|
   #   end
   # end
 
-  config.vm.define "desktop" do |desktop|
-    desktop.vm.synced_folder "./catkin_ws", "/catkin_ws"
-    desktop.vm.network "public_network", bridge: "enp3s0"
-    desktop.vm.provider "virtualbox" do |vb|
+  config.vm.define "server" do |server|
+    server.vm.hostname = "server"
+    server.vm.network :private_network, ip: "192.168.33.57"
+    #port for uchiwa
+    server.vm.network "forwarded_port", guest: 3000, host: 3000
+    #sensu
+    server.vm.network "forwarded_port", guest: 4567, host: 4567
+    #Base box with ubuntu 16.04 
+    server.vm.box = "ubuntu/xenial64"
+    server.vm.provider "virtualbox" do |vb|
+      # Customize the amount of memory on the VM:
+      vb.memory = "1024"
+      vb.cpus = 2
+    end
+  end
+
+  config.vm.define "workstation" do |workstation|
+    workstation.vm.synced_folder "./catkin_ws", "/catkin_ws"
+    workstation.vm.hostname = "workstation"
+    workstation.vm.network "public_network", bridge: "enp3s0"
+    workstation.vm.network :private_network, ip: "192.168.33.58"
+    workstation.vm.provider "virtualbox" do |vb|
       # Display the VirtualBox GUI when booting the machine
       vb.gui = true
       # Customize the amount of memory on the VM:
@@ -66,27 +84,26 @@ Vagrant.configure("2") do |config|
     end
     # Every Vagrant development environment requires a box. You can search for
     # boxes at https://vagrantcloud.com/search.
-    desktop.vm.box = "ubuntu/trusty64"
+    workstation.vm.box = "ubuntu/trusty64"
     # Enable provisioning with a shell script. Additional provisioners such as
     # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
     # documentation for more information about their specific syntax and use.
+    workstation.vm.provision "shell", inline: <<-SHELL
+      sudo apt-get update
+      sudo apt-get install -y lubuntu-desktop
+      SHELL
   end
-  
-  config.vm.provision "shell", inline: <<-SHELL
-  sudo apt-get update
-  sudo apt-get install -y xubuntu-desktop virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
-  sudo VBoxClient --clipboard
-  sudo VBoxClient --draganddrop
-  sudo VBoxClient --display
-  sudo VBoxClient --checkhostversion
-  sudo VBoxClient --seamless
-  SHELL
 
   #
   # Run Ansible from the Vagrant Host
   #
+  ENV['ANSIBLE_ROLES_PATH'] = ".vagrant/roles:./roles"
+  ENV['ANISBLE_STDOUT_CALLBACK'] = "debug"
   config.vm.provision "ansible" do |ansible|
+    ansible.galaxy_roles_path = '.vagrant/roles'
+    ansible.galaxy_command = 'ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path}'
     ansible.galaxy_role_file = 'ansible/requirements.yml'
     ansible.playbook = "ansible/playbook.yml"
+    ansible.inventory_path = "ansible/production"
   end
 end

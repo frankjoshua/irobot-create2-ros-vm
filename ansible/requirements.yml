@@ -1,4 +1,8 @@
 ---
+#Docker
 - src: https://github.com/geerlingguy/ansible-role-docker.git
 - src: https://github.com/geerlingguy/ansible-role-pip.git
+#ROS
 - src: https://github.com/jalessio/ansible-role-ros.git
+#Sensu Server Monitoring
+- src: https://github.com/sensu/sensu-ansible.git
