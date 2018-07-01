@@ -1,7 +1,7 @@
 ---
 - hosts: desktop
   vars:
-    ros_master_uri: "http://10.10.10.103:11311"
+    ros_master_uri: "http://workstation:11311"
     ros_release: "indigo"
     ros_package: "desktop-full"
     catkin_ws: "/catkin_ws"

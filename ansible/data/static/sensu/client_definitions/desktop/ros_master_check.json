@@ -1,0 +1,10 @@
+{
+    "checks": {
+       "check_ros_master": {
+          "handlers": ["default"],
+          "command": "/etc/sensu/plugins/ros_master_check.sh",
+          "interval": 60,
+          "standalone": true
+     }
+  }
+}

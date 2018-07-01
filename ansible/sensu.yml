@@ -17,26 +17,13 @@
       redis_server: true
       sensu_pushover_userkey: u5x5p1diu43n8oreodo1gru7yvooaf
       sensu_pushover_token: a6rhg4a3wngrc35g1fj1wij137dd32
-      sensu_remote_plugins:
-        - sensu-plugins-cpu-checks
-        - sensu-plugins-pushover
-        - sensu-plugins-environmental-checks
       sensu_client_subscriptions:
         - production
-      sensu_client_keepalive_handlers:
-        - default
-        - pushover
       become: yes
 
 - hosts: all:!sensu_masters
   roles:
     - role: sensu-ansible
-      sensu_remote_plugins:
-        - sensu-plugins-cpu-checks
-        - sensu-plugins-pushover
       sensu_client_subscriptions:
         - production
-      sensu_client_keepalive_handlers:
-        - default
-        - pushover
       become: yes
