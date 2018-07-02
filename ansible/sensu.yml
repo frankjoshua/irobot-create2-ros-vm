@@ -20,6 +20,13 @@
       sensu_client_subscriptions:
         - production
       become: yes
+  tasks:
+  - name: Install Graphite plugin
+    gem: 
+      name: sensu-plugins-graphite 
+      version: 3.1.0
+      state: present 
+      executable: /opt/sensu/embedded/bin/gem
 
 - hosts: all:!sensu_masters
   roles:
@@ -27,3 +34,19 @@
       sensu_client_subscriptions:
         - production
       become: yes
+
+- hosts: graphite_masters
+  tasks:
+  - name: Deploy graphite container
+    docker_container:
+      name: graphite
+      image: graphiteapp/graphite-statsd
+      restart_policy: always
+      ports:
+        - "8088:80"
+        - "2003:2003"
+        - "2004:2004"
+        - "2023:2023"
+        - "2024:2024"
+        - "8125:8125/udp"
+        - "8126:8126"

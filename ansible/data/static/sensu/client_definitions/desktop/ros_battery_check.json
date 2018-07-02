@@ -1,9 +1,10 @@
 {
     "checks": {
        "check_ros_battery": {
-          "handlers": ["default"],
+          "type": "metric",
+          "handlers": ["graphite"],
           "command": "/etc/sensu/plugins/ros_topic_check.sh /battery/charge_ratio",
-          "interval": 60,
+          "interval": 10,
           "standalone": true
      }
   }

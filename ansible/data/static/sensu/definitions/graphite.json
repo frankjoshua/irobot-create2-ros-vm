@@ -1,0 +1,13 @@
+{
+    "handlers": {
+      "graphite": {
+        "type": "tcp",
+        "mutator": "only_check_output",
+        "timeout": 30,
+        "socket": {
+          "host": "server",
+          "port": 2003
+        }
+      }
+    }
+}

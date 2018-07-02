@@ -61,6 +61,14 @@ Vagrant.configure("2") do |config|
     server.vm.network "forwarded_port", guest: 3000, host: 3000
     #sensu
     server.vm.network "forwarded_port", guest: 4567, host: 4567
+    #graphite
+    server.vm.network "forwarded_port", guest: 8088, host: 8088
+    server.vm.network "forwarded_port", guest: 2003, host: 2003
+    server.vm.network "forwarded_port", guest: 2004, host: 2004
+    server.vm.network "forwarded_port", guest: 2023, host: 2023
+    server.vm.network "forwarded_port", guest: 2024, host: 2024
+    server.vm.network "forwarded_port", guest: 8125, host: 8125, protocol: "udp"
+    server.vm.network "forwarded_port", guest: 8126, host: 8126
     #Base box with ubuntu 16.04 
     server.vm.box = "ubuntu/xenial64"
     server.vm.provider "virtualbox" do |vb|
