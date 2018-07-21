@@ -1,0 +1,12 @@
+{
+    "checks": {
+       "check_ros_master": {
+          "handlers": ["default"],
+          "command": "/etc/sensu/plugins/ros_master_check.sh \"{{ ros_master_uri }}\" indigo",
+          "interval": 60,
+          "subscribers": [
+            "workstation"
+          ]
+     }
+  }
+}

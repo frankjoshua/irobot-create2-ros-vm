@@ -1,0 +1,71 @@
+---
+- hosts: create2
+  vars:
+    ros_ip: "{{ ansible_ssh_host }}"
+    arch: amd64
+  
+  tasks:
+    - name: Install ros master
+      docker_container:
+        name: ros-master
+        image: frankjoshua/ros-master:{{ arch }}
+        env:
+          ROS_MASTER_URI: "{{ ros_master_uri }}"
+          ROS_IP: "{{ ros_ip }}"
+        network_mode: host
+
+    - name: Install Hector mapping
+      docker_container:
+        name: ros-hector-mapping
+        image: frankjoshua/ros-hector-mapping:{{ arch }}
+        env:
+          ROS_MASTER_URI: "{{ ros_master_uri }}"
+          ROS_IP: "{{ ros_ip }}"
+        network_mode: host    
+
+    - name: Install Move Base
+      docker_container:
+        name: ros-move-base
+        image: frankjoshua/ros-move-base:{{ arch }}
+        env:
+          ROS_MASTER_URI: "{{ ros_master_uri }}"
+          ROS_IP: "{{ ros_ip }}"
+        network_mode: host   
+
+    - name: Install Move Base
+      docker_container:
+        name: ros-vel-muxer
+        image: frankjoshua/ros-vel-muxer:{{ arch }}
+        env:
+          ROS_MASTER_URI: "{{ ros_master_uri }}"
+          ROS_IP: "{{ ros_ip }}"
+        network_mode: host   
+
+- hosts: create_hardware
+  vars:
+    ros_master_uri: http://192.168.33.1:11311
+    ros_ip: 192.168.33.1
+    arch: amd64
+  
+  tasks:
+    - name: Install Create 2 driver
+      docker_container:
+        name: ros-irobot-create-2
+        image: frankjoshua/ros-irobot-create-2:{{ arch }}
+        devices:
+          - /dev/ttyUSB0:/dev/ttyUSB0        
+        env:
+          ROS_MASTER_URI: "{{ ros_master_uri }}"
+          ROS_IP: "{{ ros_ip }}"
+        network_mode: host
+
+    - name: Install Yplidar
+      docker_container:
+        name: ros-ydlidar-x4
+        image: frankjoshua/ros-ydlidar-x4:{{ arch }}
+        devices:
+          - /dev/ttyUSB1:/dev/yplidar        
+        env:
+          ROS_MASTER_URI: "{{ ros_master_uri }}"
+          ROS_IP: "{{ ros_ip }}"
+        network_mode: host

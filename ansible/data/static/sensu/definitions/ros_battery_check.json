@@ -1,0 +1,13 @@
+{
+    "checks": {
+       "check_ros_battery": {
+          "type": "metric",
+          "handlers": ["graphite"],
+          "command": "/etc/sensu/plugins/ros_topic_check.sh indigo \"{{ ros_master_uri }}\" /battery/charge_ratio",
+          "interval": 10,
+          "subscribers": [
+            "workstation"
+          ]
+     }
+  }
+}
