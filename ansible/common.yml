@@ -28,6 +28,9 @@
       name: vagrant
       groups: docker
 
+  - name: reset ssh connection to allow user changes to affect 'current login user'
+    meta: reset_connection
+
 - hosts: all
   tasks:
   - name: Poormans DNS

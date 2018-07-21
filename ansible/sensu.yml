@@ -33,6 +33,7 @@
     - role: sensu-ansible
       sensu_client_subscriptions:
         - production
+        - workstation
       become: yes
 
 - hosts: graphite_masters

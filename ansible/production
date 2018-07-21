@@ -1,14 +1,26 @@
-[sensu_masters]
 server ansible_ssh_host=192.168.33.57
+workstation ansible_ssh_host=192.168.33.58
+laptop ansible_ssh_host=192.168.33.1
+
+[all:vars]
+ros_master_uri="http://10.10.10.104:11311"
+
+[sensu_masters]
+server
 
 [redis_servers]
-server ansible_ssh_host=192.168.33.57
+server
 
 [rabbitmq_servers]
-server ansible_ssh_host=192.168.33.57
+server
 
 [graphite_masters]
-server ansible_ssh_host=192.168.33.57
+server
 
 [desktop]
-workstation ansible_ssh_host=192.168.33.58
+workstation
+
+[create2]
+laptop
+
+[create2_hardware]

@@ -98,7 +98,7 @@ Vagrant.configure("2") do |config|
     # documentation for more information about their specific syntax and use.
     workstation.vm.provision "shell", inline: <<-SHELL
       sudo apt-get update
-      sudo apt-get install -y lubuntu-desktop
+      sudo apt-get install -y ubuntu-desktop
       SHELL
   end
 
