@@ -1,24 +1,11 @@
 ---
 - hosts: sensu_masters
-  pre_tasks:
-  - name: Make sure the correct version of Erlang is used
-    copy:
-      dest: "/etc/apt/preferences.d/erlang"
-      content: |
-          Package: esl-erlang erlang*
-          Pin: version 1:20*
-          Pin-Priority: 999
-    become: yes
   roles:
     - role: sensu-ansible
       sensu_master: true
       sensu_include_dashboard: true
       rabbitmq_server: true
       redis_server: true
-      sensu_pushover_userkey: u5x5p1diu43n8oreodo1gru7yvooaf
-      sensu_pushover_token: a6rhg4a3wngrc35g1fj1wij137dd32
-      sensu_client_subscriptions:
-        - production
       become: yes
   tasks:
   - name: Install Graphite plugin
